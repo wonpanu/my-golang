@@ -8,11 +8,11 @@ import (
 	"github.com/wonpanu/my-golang/pkg/usecase"
 )
 
-type VaccineReservationRoute struct {
+type VaccineRoute struct {
 	uc usecase.IVaccine
 }
 
-func (r VaccineReservationRoute) GetAllVaccine(c *fiber.Ctx) error {
+func (r VaccineRoute) GetAllVaccine(c *fiber.Ctx) error {
 	reponse, err := r.uc.GetAll()
 	if err != nil {
 		log.Println(err)
@@ -21,7 +21,7 @@ func (r VaccineReservationRoute) GetAllVaccine(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(reponse)
 }
 
-func (r VaccineReservationRoute) GetVaccineByID(c *fiber.Ctx) error {
+func (r VaccineRoute) GetVaccineByID(c *fiber.Ctx) error {
 	ID := c.Params("id")
 	response, err := r.uc.GetByID(ID)
 	if err != nil {
@@ -31,7 +31,7 @@ func (r VaccineReservationRoute) GetVaccineByID(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(response)
 }
 
-func (r VaccineReservationRoute) CreateVaccine(c *fiber.Ctx) error {
+func (r VaccineRoute) CreateVaccine(c *fiber.Ctx) error {
 	var body entity.Vaccine
 	err := c.BodyParser(&body)
 	if err != nil {
@@ -46,7 +46,7 @@ func (r VaccineReservationRoute) CreateVaccine(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(reponse)
 }
 
-func (r VaccineReservationRoute) UpdateVaccine(c *fiber.Ctx) error {
+func (r VaccineRoute) UpdateVaccine(c *fiber.Ctx) error {
 	ID := c.Params("id")
 	var body entity.Vaccine
 	err := c.BodyParser(&body)
@@ -62,7 +62,7 @@ func (r VaccineReservationRoute) UpdateVaccine(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(response)
 }
 
-func (r VaccineReservationRoute) DeleteVaccine(c *fiber.Ctx) error {
+func (r VaccineRoute) DeleteVaccine(c *fiber.Ctx) error {
 	ID := c.Params("id")
 	err := r.uc.Delete(ID)
 	if err != nil {
@@ -72,8 +72,8 @@ func (r VaccineReservationRoute) DeleteVaccine(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).SendString("success")
 }
 
-func NewVaccineHandler(vaccineUsecase usecase.IVaccine) VaccineReservationRoute {
-	return VaccineReservationRoute{
+func NewVaccineHandler(vaccineUsecase usecase.IVaccine) VaccineRoute {
+	return VaccineRoute{
 		uc: vaccineUsecase,
 	}
 }
